@@ -1,16 +1,21 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 
-// A simple route
-app.get('/', (req, res) => {
-    res.json({ message: 'Hello from Vercel!' });
-});
+// 1. Serve static files from the 'public' folder
+app.use(express.static(path.join(__dirname, 'public')));
 
+// 2. Define your API routes
 app.get('/api/status', (req, res) => {
-    res.json({ status: 'Online and running perfectly.' });
+    res.json({ status: 'API is running perfectly.' });
 });
 
-// CRITICAL: Export the app for Vercel's serverless environment
+// 3. Catch-all route (Send all other requests to your frontend)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// CRITICAL: Export the app for Vercel
 module.exports = app;
 
 // Allow local development
