@@ -11,7 +11,8 @@ app.get('/api/status', (req, res) => {
 });
 
 // 3. Catch-all route (Send all other requests to your frontend)
-app.get('*', (req, res) => {
+// The Express v5 way
+app.get(/(.*)/, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
